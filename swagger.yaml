@@ -1,0 +1,87 @@
+basePath: /
+consumes:
+    - application/json
+definitions:
+    User:
+        properties:
+            address:
+                type: string
+                x-go-name: Address
+            email:
+                type: string
+                x-go-name: Email
+            name:
+                type: string
+                x-go-name: Name
+            nickname:
+                type: string
+                x-go-name: Nickname
+        required:
+            - name
+        type: object
+        x-go-package: go-swagger-demo/api
+host: 127.0.0.1:8080
+info:
+    description: API documentation for the go-swagger-demo project.
+    title: go-swagger-demo.
+    version: 0.1.0
+paths:
+    /user:
+        post:
+            operationId: createUserRequest
+            parameters:
+                - in: body
+                  name: Body
+                  schema:
+                    $ref: '#/definitions/User'
+            responses:
+                "200":
+                    $ref: '#/responses/createUserResponse'
+                default:
+                    $ref: '#/responses/errResponse'
+            summary: 创建用户.
+            tags:
+                - user
+    /user/{name}:
+        get:
+            operationId: getUserRequest
+            parameters:
+                - in: path
+                  name: name
+                  required: true
+                  type: string
+                  x-go-name: Name
+            responses:
+                "200":
+                    $ref: '#/responses/getUserResponse'
+                default:
+                    $ref: '#/responses/errResponse'
+            summary: 查询用户.
+            tags:
+                - user
+produces:
+    - application/json
+responses:
+    createUserResponse:
+        description: ""
+        schema:
+            $ref: '#/definitions/User'
+    errResponse:
+        description: ""
+        headers:
+            code:
+                format: int64
+                type: integer
+            message:
+                type: string
+    getUserResponse:
+        description: ""
+        schema:
+            $ref: '#/definitions/User'
+schemes:
+    - http
+    - https
+securityDefinitions:
+    basic:
+        type: basic
+swagger: "2.0"
